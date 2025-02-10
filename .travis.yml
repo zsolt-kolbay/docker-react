@@ -1,5 +1,10 @@
 dist: bionic
 sudo: required
+
+env:
+  global:
+    - DPL_DEBUG=true
+
 services:
   - docker
 
@@ -12,12 +17,18 @@ script:
   - docker run kzs/docker-react npm run test -- --coverage
 
 deploy:
-  provider: elasticbeanstalk
-  region: "eu-north-1"
-  app: "zsolt-docker-ci"
-  env: "Zsolt-docker-ci-env"
-  bucket_name: "elasticbeanstalk-eu-north-1-746669227871"
-  bucket_path: "zsolt-docker-ci"
+  provider: script
+  script: |
+    gem install dpl
+    dpl --provider=elasticbeanstalk \
+        --access-key-id=$AWS_ACCESS_KEY \
+        --secret-access-key=$AWS_SECRET_KEY \
+        --app="zsolt-docker-ci" \
+        --env="Zsolt-docker-ci-env" \
+        --region="eu-north-1" \
+        --bucket="elasticbeanstalk-eu-north-1-746669227871" \
+        --bucket_path="zsolt-docker-ci" \
+        --debug
   on:
     branch: main
   access_key_id: $AWS_ACCESS_KEY

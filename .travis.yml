@@ -7,3 +7,16 @@ before_install:
 
 script:
   - docker run kzs/docker-react npm run test -- --coverage
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-north-1"
+  app: "zsolt-docker-ci"
+  env: "Zsolt-docker-ci-env"
+  bucket_name: "elasticbeanstalk-eu-north-1-746669227871"
+  bucket_path: "zsolt-docker-ci"
+  on:
+    branch: main
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"

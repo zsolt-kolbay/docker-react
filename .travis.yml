@@ -12,9 +12,6 @@ before_install:
 script:
   - docker run kzs/docker-react npm run test -- --coverage
 
-before_deploy:
-  - docker system prune -f -a
-
 deploy:
   provider: elasticbeanstalk
   region: "eu-north-1"

@@ -4,6 +4,8 @@ services:
   - docker
 
 before_install:
+  - gem install bundler
+  - bundle config set force_ruby_platform true
   - docker build -t kzs/docker-react -f Dockerfile.dev .
 
 script:
